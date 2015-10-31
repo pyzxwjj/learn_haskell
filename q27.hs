@@ -1,0 +1,16 @@
+import Data.List
+q27_helper :: Int -> [a] -> [([a], [a])]
+q27_helper 0 xs = [([], xs)]
+q27_helper _ [] = []
+q27_helper n (x:xs) = tf ++ ts
+        where tf = [(x:yf, ys) | (yf, ys) <- q27_helper (n-1) xs]
+              ts = [(yf, x:ys) | (yf, ys) <- q27_helper n xs]
+q27 :: [Int] -> [a] -> [[[a]]]
+q27 [] xs = [[]]
+q27 (x:xs) ele = [g:gs | (g,ys) <- q27_helper x ele, gs <- q27 xs ys] 
+q27_helper2 :: Int -> [a] -> [([a], [a])]
+q27_helper2 0 xs = [([], xs)]
+q27_helper2 n xs = [ (y:ys,yt) | (y:ys') <- tails xs, (ys, yt) <- q27_helper2 (n-1) ys']
+q27' :: [Int] -> [a] -> [[[a]]]
+q27' [] xs = [[]]
+q27' (x:xs) ele = [g:gs | (g,ys) <- q27_helper2 x ele, gs <- q27 xs ys] 
